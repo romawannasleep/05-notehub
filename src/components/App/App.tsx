@@ -2,7 +2,8 @@
 import React, { useState, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useDebouncedCallback } from 'use-debounce';
-import { fetchNotes } from '../../Services/noteService';
+import { fetchNotes } from '../../services/noteService';
+import Pagination from '../Pagination/Pagination';
 import SearchBox from '../SearchBox/SearchBox';
 import NoteList from '../NoteList/NoteList';
 import Modal from '../Modal/Modal';
@@ -23,6 +24,7 @@ const App: React.FC = () => {
     queryKey: ['notes', page, search],
     queryFn: () => fetchNotes({ page, perPage, search }),
     staleTime: 5000,
+    placeholderData: (previousData) => previousData,
   });
 
   const handleSearch = useDebouncedCallback((value: string) => {
@@ -30,18 +32,22 @@ const App: React.FC = () => {
     setPage(1); // Скидаємо на першу сторінку при новому пошуку
   }, 500);
 
+  const handlePageChange = useCallback((selectedPage: number) => {
+    setPage(selectedPage + 1);
+  }, []);
+
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
         <SearchBox onChange={handleSearch} />
         
-        {/* {data && data.totalPages > 1 && (
+        {data && data.totalPages > 1 && (
           <Pagination 
             pageCount={data.totalPages} 
             onPageChange={handlePageChange} 
             forcePage={page - 1} 
           />
-        )} */}
+        )}
         
         <button className={css.button} onClick={() => setIsModalOpen(true)}>
           Create note +

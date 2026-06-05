@@ -1,7 +1,7 @@
 // src/components/NoteList/NoteList.tsx
 import React from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteNote } from '../../Services/noteService';
+import { deleteNote } from '../../services/noteService';
 import type { Note } from '../../types/note';
 import css from './NoteList.module.css';
 
