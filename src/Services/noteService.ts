@@ -6,7 +6,6 @@ const api = axios.create({
   baseURL: 'https://notehub-public.goit.study/api',
 });
 
-// Додаємо інтерсептор для передачі токена авторизації
 api.interceptors.request.use((config) => {
   const token = import.meta.env.VITE_NOTEHUB_TOKEN;
   if (token && config.headers) {
